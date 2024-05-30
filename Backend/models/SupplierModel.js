@@ -5,7 +5,7 @@ const supplierSchema = new mongoose.Schema({
   name: { type: String, required: true },
   description: {type: String, required: false},
   owed: { type: Number, default: 0},
-  productlist: [{
+  products: [{
     type: mongoose.Schema.Types.ObjectId,
     ref:"Product"
   }]

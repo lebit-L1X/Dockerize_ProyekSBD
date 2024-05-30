@@ -5,19 +5,13 @@ const productSchema = new mongoose.Schema(
     id: { type: String, required: true, unique: true },
     name: { type: String, required: true, unique: true },
     price: { type: Number, required: true, unique: false },
-    stock: { type: Number, required: true, unique: false },
     supplier: [
       {
         type: mongoose.Schema.Types.ObjectId,
         ref: "Supplier",
       },
     ],
-    Paid: {
-      type: Boolean,
-      default: false,
-    },
   },
-  { timestamps: true }
 );
 
 const Product = mongoose.model("Product", productSchema);
