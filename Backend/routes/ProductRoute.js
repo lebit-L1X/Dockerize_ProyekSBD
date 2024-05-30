@@ -3,10 +3,9 @@ const productController = require("../repositories/repository.product");
 const router = express.Router();
 
 //STARTS WITH /product
-router.get("/products", productController.getProducts);
-router.get("/product/:id", productController.getProduct);
-router.post("/product", productController.addProduct);
-router.put("/product/:id", productController.updateProduct)
-router.delete("/product/:id", productController.deleteProduct)
+router.get("", productController.getProducts);
+router.get("/:id", productController.getProduct);
+router.post("", productController.addProduct);
+router.delete("/:id", productController.deleteProduct)
 
 module.exports = router;

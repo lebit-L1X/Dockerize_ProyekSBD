@@ -2,10 +2,9 @@ const express = require("express");
 const supplierController = require("../repositories/repository.shop");
 const router = express.Router();
 
-router.get("/suppliers", supplierController.getSuppliers);
-router.get("/supplier/:id", supplierController.getSupplier);
-router.post("/supplier", supplierController.addSupplier);
-router.put("/supplier/:id", supplierController.updateSupplier)
-router.delete("/supplier/:id", supplierController.deleteSupplier)
+router.get("", supplierController.getSuppliers);
+router.get("/:id", supplierController.getSupplier);
+router.post("", supplierController.addSupplier);
+router.delete("/:id", supplierController.deleteSupplier)
 
 module.exports = router;
