@@ -7,4 +7,4 @@ router.post("/shop", shopController.addShop);
 router.put("shop/product/stock", shopController.updateStock)
 router.put("shop/balance", shopController.updateBal)
 
-module.exports = shopRouter;
+module.exports = router;

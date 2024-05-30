@@ -1,5 +1,5 @@
 const express = require("express");
-const supplierController = require("../repositories/repository.supplier");
+const supplierController = require("../repositories/repository.shop");
 const router = express.Router();
 
 router.get("/suppliers", supplierController.getSuppliers);
@@ -8,4 +8,4 @@ router.post("/supplier", supplierController.addSupplier);
 router.put("/supplier/:id", supplierController.updateSupplier)
 router.delete("/supplier/:id", supplierController.deleteSupplier)
 
-module.exports = supplierRouter;
+module.exports = router;
