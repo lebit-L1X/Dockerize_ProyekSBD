@@ -43,12 +43,19 @@ exports.getProductBySupplier = async function (req, res) {
 
 exports.addProduct = async function (req, res) {
   try {
-    const { id, name, price, supplier } = req.body;
+    const { id, name, price, supplierid } = req.body;
 
-    if (!id || !name || !price || !supplier) {
+    if (!id || !name || !price || !supplierid) {
       return res
         .status(400)
         .json({ success: false, message: "All fields are required" });
+    }
+    let supplier;
+    if (!await Supplier.exists({ id: supplierid })) {
+        return res.status(400).json({ success: false, message: "Supplier not found" });
+      }
+    else{
+        supplier = await Supplier.findOne({id:supplierid});
     }
 
     const newProduct = new Product({
