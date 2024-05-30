@@ -1,17 +1,17 @@
 const dotenv = require("dotenv");
 dotenv.config();
 
-const express = require("express");
-const cors = require("cors");
-const db = require("./config/db");
-
-const app = express();
-const PORT = process.env.PORT;
-
 //Routes
 const productRoutes = require("./routes/ProductRoute");
 const shopRoutes = require("./routes/ShopRoute");
 const supplierRoutes = require("./routes/SupplierRoute");
+
+const express = require("express");
+const cors = require("cors");
+const db = require("./db/db");
+
+const app = express();
+const PORT = process.env.PORT;
 
 //Connect To the Database
 db.connectDB();
@@ -26,13 +26,13 @@ app.use(
   })
 );
 
-//All route starts with /product will be redirected to threadRoutes
+//All route starts with /product will be redirected to productRoute
 app.use("/product", productRoutes);
 
-//All route starts with /shop will be redirected to userRoutes
+//All route starts with /shop will be redirected to shopRoute
 app.use("/shop", shopRoutes);
 
-//All route starts with /supplier will be redirected to userRoutes
+//All route starts with /supplier
 app.use("/supplier", supplierRoutes);
 
 app.listen(PORT, () => {

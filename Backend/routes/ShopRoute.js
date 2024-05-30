@@ -4,7 +4,7 @@ const router = express.Router();
 
 
 router.post("", shopController.addShop);
-router.put("/product/stock", shopController.updateStock)
+router.put("/stock", shopController.updateStock)
 router.put("/balance", shopController.updateBal)
 
 module.exports = router;
