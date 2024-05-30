@@ -9,9 +9,9 @@ const app = express();
 const PORT = process.env.PORT;
 
 //Routes
-const productRoutes = require("./routes/ProductRoutes");
+const productRoutes = require("./routes/ProductRoute");
 const shopRoutes = require("./routes/ShopRoute");
-const supplierRoutes = require("./routes/SupplierRoutes");
+const supplierRoutes = require("./routes/SupplierRoute");
 
 //Connect To the Database
 db.connectDB();
