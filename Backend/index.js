@@ -1,17 +1,17 @@
 const dotenv = require("dotenv");
 dotenv.config();
 
+//Routes
+const ProductRoutes = require("./routes/ProductRoute");
+const ShopRoute = require("./routes/ShopRoute");
+const SupplierRoute = require("./routes/SupplierRoute");
+
 const express = require("express");
 const cors = require("cors");
-const db = require("./config/db");
+const db = require("./db/db");
 
 const app = express();
 const PORT = process.env.PORT;
-
-//Routes
-const productRoutes = require("./routes/ProductRoute");
-const shopRoutes = require("./routes/ShopRoute");
-const supplierRoutes = require("./routes/SupplierRoute");
 
 //Connect To the Database
 db.connectDB();
@@ -26,14 +26,13 @@ app.use(
   })
 );
 
-//All route starts with /product will be redirected to threadRoutes
-app.use("/product", productRoutes);
+//All route starts with /thread will be redirected to ProductRoutes
+app.use("/product", ProductRoutes);
 
-//All route starts with /shop will be redirected to userRoutes
-app.use("/shop", shopRoutes);
+//All route starts with /user will be redirected to ShopRoute
+app.use("/shop", ShopRoute);
 
-//All route starts with /supplier will be redirected to userRoutes
-app.use("/supplier", supplierRoutes);
+app.use("/supplier", SupplierRoute);
 
 app.listen(PORT, () => {
   console.log(`Server is running on PORT ${PORT} `);

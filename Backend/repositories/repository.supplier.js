@@ -3,7 +3,7 @@ const { Supplier } = require("../models/SupplierModel");
 // Get all suppliers
 const getSuppliers = async (req, res) => {
   try {
-    const suppliers = await Supplier.find().populate('products');
+    const suppliers = await Supplier.find().populate("products");
     res.status(200).json(suppliers);
   } catch (error) {
     res.status(500).json({ message: error.message });
@@ -13,7 +13,9 @@ const getSuppliers = async (req, res) => {
 // Get a single supplier by ID
 const getSupplier = async (req, res) => {
   try {
-    const supplier = await Supplier.findById(req.params.id).populate('products');
+    const supplier = await Supplier.findById(req.params.id).populate(
+      "products"
+    );
     if (!supplier) {
       return res.status(404).json({ message: "Supplier not found" });
     }
@@ -37,7 +39,11 @@ const addSupplier = async (req, res) => {
 // Update a supplier
 const updateSupplier = async (req, res) => {
   try {
-    const updatedSupplier = await Supplier.findByIdAndUpdate(req.params.id, req.body, { new: true });
+    const updatedSupplier = await Supplier.findByIdAndUpdate(
+      req.params.id,
+      req.body,
+      { new: true }
+    );
     if (!updatedSupplier) {
       return res.status(404).json({ message: "Supplier not found" });
     }
