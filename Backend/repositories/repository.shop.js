@@ -47,7 +47,7 @@ const updateStock = async (req, res) => {
         product: product._id,
         stock: parseInt(amount, 10),
         sell_price: product.price,
-        paid: false  
+        paid: false
       });
     }
 
