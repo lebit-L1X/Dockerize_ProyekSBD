@@ -21,8 +21,7 @@ const ShopDetails = () => {
   const handleAddBalance = (price) => {
     setShopBalance(shopBalance + price);
   };
-
-
+  
   const navigate = useNavigate();
   const shop = {
     id: "1",

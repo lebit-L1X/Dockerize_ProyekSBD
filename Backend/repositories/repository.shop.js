@@ -15,7 +15,8 @@ const addShop = async (req, res) => {
 
 const getShopById = async (req, res) => {
   try {
-    const shop = await Shop.findOne({ id: req.params.id });
+    const newShop = await Shop.findOne({ id: req.params.id });
+    res.status(200).json(newShop);
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
