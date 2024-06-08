@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
+import axios from 'axios';
 
 const SupplierList = () => {
   const [suppliers, setSuppliers] = useState([]);
@@ -14,35 +15,25 @@ const SupplierList = () => {
 
   const fetchSuppliers = async () => {
     try {
-      const response = await fetch('/supplier');
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
+      const response = await axios.get('/api/suppliers');
+      if (Array.isArray(response.data)) {
+        setSuppliers(response.data);
+      } else {
+        console.error('Error fetching suppliers: Response is not an array');
+        setSuppliers([]);
       }
-      const data = await response.json();
-      setSuppliers(data);
     } catch (error) {
       console.error('Error fetching suppliers:', error);
+      setSuppliers([]);
     }
   };
 
   const handleAddSupplier = async () => {
     try {
-      const response = await fetch('/api/suppliers', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(newSupplier),
-      });
-
-      if (response.ok) {
-        const addedSupplier = await response.json();
-        setSuppliers([...suppliers, addedSupplier]);
-        setShowAddSupplierModal(false);
-        setNewSupplier({ id: '', name: '', description: '', owed: 0 });
-      } else {
-        console.error('Error adding supplier:', response.statusText);
-      }
+      const response = await axios.post('/api/suppliers', newSupplier);
+      setSuppliers([...suppliers, response.data]);
+      setShowAddSupplierModal(false);
+      setNewSupplier({ id: '', name: '', description: '', owed: 0 });
     } catch (error) {
       console.error('Error adding supplier:', error);
     }
