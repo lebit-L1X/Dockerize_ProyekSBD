@@ -69,7 +69,7 @@ const SupplierDetail = () => {
 
   return (
     <div className="container mx-auto p-4">
-      <Card className="mx-auto shadow-lg">
+      <Card className=" mx-auto shadow-xl">
         <CardHeader>
           <CardTitle className="text-3xl font-bold mb-4">
             {supplier.name}

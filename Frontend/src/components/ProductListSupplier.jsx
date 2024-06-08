@@ -30,16 +30,18 @@ const ProductListSupplier = ({
             <div className="flex items-center">
               <Button
                 variant="outline"
-                onClick={() => handleDecrementQuantity(product.id)}
-                className="mr-2 bg-black text-white"
+                onClick={() => handleDecrement(product.id)}
+                className="mr-2"
+                disabled={quantities[product.id] === 0}
               >
                 -
               </Button>
               <span className="mx-2">{quantities[product.id]}</span>
               <Button
                 variant="outline"
-                onClick={() => handleIncrementQuantity(product.id)}
-                className="mr-2 bg-black text-white"
+                onClick={() => handleIncrement(product.id)}
+                className="mr-2"
+                disabled={quantities[product.id] >= product.stock}
               >
                 +
               </Button>
