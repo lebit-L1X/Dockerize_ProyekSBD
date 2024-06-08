@@ -4,7 +4,8 @@ const shopProductSchema = new mongoose.Schema(
   {
     product: { type: mongoose.Schema.Types.ObjectId, ref: "Product", required: true },
     paid: { type: Boolean, default: false },
-    stock: {type: Number, default: 1},
+    stock: { type: Number, default: 1 },
+    sell_price: { type: Number }
   },
   { timestamps: true }
 );

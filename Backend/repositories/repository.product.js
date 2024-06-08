@@ -66,6 +66,10 @@ exports.addProduct = async function (req, res) {
     });
 
     await newProduct.save();
+    
+    supplier.products.push(newProduct._id);
+    await supplier.save();
+
 
     res
       .status(201)
@@ -84,7 +88,7 @@ exports.deleteProduct = async function (req, res) {
   try {
     const { productId } = req.params;
 
-    const product = await Product.findById(productId);
+    const product = await Product.findOneAndDelete({id:productId});
     if (!product) {
       return res
         .status(404)
@@ -101,3 +105,21 @@ exports.deleteProduct = async function (req, res) {
     res.status(500).send("Internal Server Error");
   }
 };
+
+exports.getProductByShop = async function (req, res) {
+  try {
+    const { shopId } = req.params;
+
+    const shop = await Shop.findById(shopId).populate('products.product');
+
+    if (!shop) {
+      return res.status(404).json({ success: false, message: "Shop not found" });
+    }
+
+    res.status(200).json({ success: true, message: "Successfully retrieved shop products", data: shop.products });
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Internal Server Error");
+  }
+};
+

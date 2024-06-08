@@ -5,6 +5,5 @@ const router = express.Router();
 router.get("", supplierController.getSuppliers);
 router.get("/:id", supplierController.getSupplier);
 router.post("", supplierController.addSupplier);
-router.delete("/:id", supplierController.deleteSupplier);
 
 module.exports = router;
