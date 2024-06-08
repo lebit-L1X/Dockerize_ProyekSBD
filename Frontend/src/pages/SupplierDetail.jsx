@@ -1,14 +1,20 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import ProductList from "../components/ProductList";
-import Cart from "../components/Cart";
+import ProductListSupplier from "../components/ProductListSupplier";
 import { Button } from "@/components/ui/button";
-import { Card } from "@/components/ui/card";
+import {
+  Card,
+  CardHeader,
+  CardTitle,
+  CardContent,
+  CardFooter,
+} from "@/components/ui/card";
+import { Separator } from "@/components/ui/separator";
 
 const SupplierDetail = () => {
   const { id } = useParams();
-  const [cart, setCart] = useState([]);
-  const [shopBalance, setShopBalance] = useState(1000);
+  const [quantities, setQuantities] = useState({});
+  const [totalDebt, setTotalDebt] = useState(0);
 
   const supplier = {
     id,
@@ -22,33 +28,73 @@ const SupplierDetail = () => {
 
   useEffect(() => {
     console.log("SupplierDetail component mounted");
-  }, []);
+    const initialQuantities = Object.fromEntries(
+      supplier.products.map((product) => [product.id, 0])
+    );
+    setQuantities(initialQuantities);
+  }, [supplier]);
 
-  const addToCart = (product, quantity) => {
-    setCart([...cart, { ...product, quantity }]);
+  const handleIncrement = (productId) => {
+    setQuantities({
+      ...quantities,
+      [productId]: quantities[productId] + 1,
+    });
+  };
+
+  const handleDecrement = (productId) => {
+    if (quantities[productId] > 0) {
+      setQuantities({
+        ...quantities,
+        [productId]: quantities[productId] - 1,
+      });
+    }
   };
 
   const handleOrder = () => {
-    console.log("Order placed", cart);
-    setCart([]);
+    const totalAmount = Object.entries(quantities).reduce(
+      (acc, [productId, quantity]) => {
+        const product = supplier.products.find(
+          (p) => p.id === parseInt(productId)
+        );
+        return acc + product.price * quantity;
+      },
+      0
+    );
+    setTotalDebt(totalDebt + totalAmount);
+    console.log("Order placed", quantities);
+    setQuantities(
+      Object.fromEntries(supplier.products.map((product) => [product.id, 0]))
+    );
   };
 
   return (
     <div className="container mx-auto p-4">
-      <Card className="max-w-md mx-auto p-6">
-        <h1 className="text-3xl font-bold mb-4">{supplier.name}</h1>
-        <p className="text-lg mb-4">Saldo Toko: ${shopBalance}</p>
-        <hr className="my-4" />
-        <div className="my-4">
-          <ProductList products={supplier.products} addToCart={addToCart} />
-        </div>
-        <hr className="my-4" />
-        <div className="my-4">
-          <Cart cart={cart} handleOrder={handleOrder} />
-        </div>
-        <Button variant="primary" onClick={handleOrder} className="w-full mt-4">
-          Order
-        </Button>
+      <Card className="mx-auto shadow-lg">
+        <CardHeader>
+          <CardTitle className="text-3xl font-bold mb-4">
+            {supplier.name}
+          </CardTitle>
+        </CardHeader>
+        <CardContent>
+          <p className="text-lg mb-4">Utang: ${totalDebt}</p>
+          <Separator className="my-4" />
+          <ProductListSupplier
+            products={supplier.products}
+            quantities={quantities}
+            handleIncrement={handleIncrement}
+            handleDecrement={handleDecrement}
+          />
+          <Separator className="my-4" />
+        </CardContent>
+        <CardFooter>
+          <Button
+            variant="primary"
+            onClick={handleOrder}
+            className="w-full bg-black text-white"
+          >
+            Order
+          </Button>
+        </CardFooter>
       </Card>
     </div>
   );
