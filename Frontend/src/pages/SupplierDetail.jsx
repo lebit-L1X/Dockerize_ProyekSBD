@@ -39,7 +39,9 @@ const SupplierDetail = () => {
 
     const fetchSupplierData = async () => {
       try {
-        const response = await axios.get(`http://localhost:4000/supplier/${id}`);
+        const response = await axios.get(
+          `http://localhost:4000/supplier/${id}`
+        );
         const supplierData = response.data;
 
         const mappedSupplier = {
@@ -130,7 +132,9 @@ const SupplierDetail = () => {
       console.log("Order placed", response.data);
       // Reset quantities and total debt
       setTotalDebt(0);
-      setQuantities(Object.fromEntries(Object.keys(quantities).map((key) => [key, 0])));
+      setQuantities(
+        Object.fromEntries(Object.keys(quantities).map((key) => [key, 0]))
+      );
     } catch (error) {
       console.error("Failed to place order:", error);
     }
@@ -149,18 +153,24 @@ const SupplierDetail = () => {
           <Separator className="my-4" />
 
           <DropdownMenu>
-  <DropdownMenuTrigger asChild>
-    <Button className="mb-4">{selectedShop ? selectedShop.shop_name : "Select Shop"}</Button>
-  </DropdownMenuTrigger>
-  <DropdownMenuContent>
-    {shops.map((shop) => (
-      <DropdownMenuItem key={shop.id} onSelect={() => { setSelectedShop(shop); }}>
-        {shop.shop_name}
-      </DropdownMenuItem>
-    ))}
-  </DropdownMenuContent>
-</DropdownMenu>
-
+            <DropdownMenuTrigger asChild>
+              <Button className="mb-4">
+                {selectedShop ? selectedShop.shop_name : "Select Shop"}
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent>
+              {shops.map((shop) => (
+                <DropdownMenuItem
+                  key={shop.id}
+                  onSelect={() => {
+                    setSelectedShop(shop);
+                  }}
+                >
+                  {shop.shop_name}
+                </DropdownMenuItem>
+              ))}
+            </DropdownMenuContent>
+          </DropdownMenu>
 
           <ProductListSupplier
             products={supplier.products}

@@ -5,6 +5,7 @@ import ShopDetails from "./pages/ShopDetails";
 import SupplierDetail from "./pages/SupplierDetail";
 import SupplierList from "./pages/SupplierList";
 import ShopList from "./pages/ShopList";
+import ProductList from "./pages/ProductList";
 
 function App() {
   return (
@@ -13,6 +14,7 @@ function App() {
       <Route path="/shops" element={<ShopList />} />
       <Route path="/shop/:id" element={<ShopDetails />} />
       <Route path="/suppliers" element={<SupplierList />} />
+      <Route path="/products" element={<ProductList />} />
       <Route path="/supplier/:id" element={<SupplierDetail />} />
     </Routes>
   );
