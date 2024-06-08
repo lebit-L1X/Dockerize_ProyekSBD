@@ -52,10 +52,10 @@ exports.addProduct = async function (req, res) {
     }
     let supplier;
     if (!await Supplier.exists({ id: supplierid })) {
-        return res.status(400).json({ success: false, message: "Supplier not found" });
-      }
-    else{
-        supplier = await Supplier.findOne({id:supplierid});
+      return res.status(400).json({ success: false, message: "Supplier not found" });
+    }
+    else {
+      supplier = await Supplier.findOne({ id: supplierid });
     }
 
     const newProduct = new Product({
@@ -66,7 +66,7 @@ exports.addProduct = async function (req, res) {
     });
 
     await newProduct.save();
-    
+
     supplier.products.push(newProduct._id);
     await supplier.save();
 
@@ -88,7 +88,7 @@ exports.deleteProduct = async function (req, res) {
   try {
     const { productId } = req.params;
 
-    const product = await Product.findOneAndDelete({id:productId});
+    const product = await Product.findOneAndDelete({ id: productId });
     if (!product) {
       return res
         .status(404)
