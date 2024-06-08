@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 
-const ProductList = ({ products, addToCart }) => {
+const ProductListShop = ({ products, addToCart }) => {
   const [quantities, setQuantities] = useState(
     Object.fromEntries(products.map((product) => [product.id, 0]))
   );
@@ -60,4 +60,4 @@ const ProductList = ({ products, addToCart }) => {
   );
 };
 
-export default ProductList;
+export default ProductListShop;
