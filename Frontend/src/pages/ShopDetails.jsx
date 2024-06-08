@@ -1,11 +1,12 @@
 import React from "react";
+import { Button } from "../components/ui/button";
 
 const ShopDetails = () => {
   return (
-    <div>
+    <>
       <h1>Shop Details</h1>
-      {/* Konten halaman ShopDetails */}
-    </div>
+      <Button>Click me</Button>
+    </>
   );
 };
 
