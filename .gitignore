@@ -25,4 +25,4 @@ dist-ssr
 
 */.env
 */.gitignore
-*/node_module
+*/node_modules

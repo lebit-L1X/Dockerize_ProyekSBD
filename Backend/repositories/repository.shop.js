@@ -13,6 +13,14 @@ const addShop = async (req, res) => {
   }
 };
 
+const getShopById = async (req, res) => {
+  try {
+    const shop = await Shop.findOne({ id: req.params.id });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
 // Update product stock in a shop
 const updateStock = async (req, res) => {
   const { shop_id, product_id, amount } = req.body;
