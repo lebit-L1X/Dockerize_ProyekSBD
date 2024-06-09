@@ -3,5 +3,5 @@ WORKDIR /APP
 COPY . /APP
 RUN apk add npm
 RUN npm install
-EXPOSE 5000
+EXPOSE 4000
 CMD node /APP/index.js

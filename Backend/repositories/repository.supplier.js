@@ -13,7 +13,7 @@ const getSuppliers = async (req, res) => {
 // Get a single supplier by ID
 const getSupplier = async (req, res) => {
   try {
-    const supplier = await Supplier.findById(req.params.id).populate(
+    const supplier = await Supplier.findOne().populate(
       "products"
     );
     if (!supplier) {

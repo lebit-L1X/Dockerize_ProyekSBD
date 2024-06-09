@@ -7,13 +7,11 @@ services:
       dockerfile: Dockerfile
     container_name: backend
     ports:
-      - "5000:5000"
+      - "4000:4000"
     environment:
-      - PGHOST=ep-solitary-dust-a1fk3z4p.ap-southeast-1.aws.neon.tech
-      - PGDATABASE=MarketManager
-      - PGUSER=kebin_owner
-      - PGPASSWORD=b7PwafhS4TyA
-      - PGPORT=5432
+      - MONGODB_URI=mongodb+srv://lebitl1x:VAt3PecOLtTBmN0x@dockersbd.drqhdog.mongodb.net/?retryWrites=true&w=majority&
+      - appName=DockerSBD
+      - PORT = 4000
 
   # Client service
   client:

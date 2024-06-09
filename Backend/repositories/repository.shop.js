@@ -15,12 +15,12 @@ const addShop = async (req, res) => {
 
 // Update product stock in a shop
 const updateStock = async (req, res) => {
-  const { shop_id, product_id, amount } = req.body;
+  const { shop_id, products } = req.body;
 
-  if (!shop_id || !product_id || !amount) {
+  if (!shop_id || !Array.isArray(products) || products.length === 0) {
     return res.status(400).json({
       success: false,
-      message: "All fields are required and 'amount' must be a number",
+      message: "Shop ID and an array of products are required",
     });
   }
 
@@ -30,34 +30,44 @@ const updateStock = async (req, res) => {
       return res.status(404).json({ success: false, message: "Shop not found" });
     }
 
-    const product = await Product.findOne({ id: product_id });
-    if (!product) {
-      return res.status(404).json({ success: false, message: "Product not found" });
+    for (const item of products) {
+      const { product_id, amount } = item;
+      if (!product_id || !amount) {
+        return res.status(400).json({
+          success: false,
+          message: "Each product must have 'product_id' and 'amount'",
+        });
+      }
+
+      const product = await Product.findOne({ id: product_id });
+      if (!product) {
+        return res.status(404).json({ success: false, message: `Product not found for id: ${product_id}` });
+      }
+
+      const productIdStr = product._id.toString();
+      const unpaidProduct = shop.products.find(
+        (p) => p.product.toString() === productIdStr && !p.paid
+      );
+
+      if (unpaidProduct) {
+        unpaidProduct.stock += parseInt(amount, 10);
+      } else {
+        shop.products.push({
+          product: product._id,
+          stock: parseInt(amount, 10),
+          sell_price: product.price,
+          paid: false  
+        });
+      }
+
+      const supplier = await Supplier.findById(product.supplier);
+      if (!supplier) {
+        return res.status(404).json({ success: false, message: `Supplier not found for product id: ${product_id}` });
+      }
+
+      supplier.owed += product.price * parseInt(amount, 10);
+      await supplier.save();
     }
-
-    const productIdStr = product._id.toString();
-    const unpaidProduct = shop.products.find(
-      (p) => p.product.toString() === productIdStr && !p.paid
-    );
-
-    if (unpaidProduct) {
-      unpaidProduct.stock += parseInt(amount, 10);
-    } else {
-      shop.products.push({
-        product: product._id,
-        stock: parseInt(amount, 10),
-        sell_price: product.price,
-        paid: false
-      });
-    }
-
-    const supplier = await Supplier.findById(product.supplier);
-    if (!supplier) {
-      return res.status(404).json({ success: false, message: "Supplier not found" });
-    }
-
-    supplier.owed += product.price * parseInt(amount, 10);
-    await supplier.save();
 
     await shop.save();
 
